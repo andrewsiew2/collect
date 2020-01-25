@@ -67,6 +67,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static org.odk.collect.android.preferences.GeneralKeys.GENERAL_KEYS;
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 
 /**
@@ -277,8 +278,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
         updateButtons();
         getContentResolver().registerContentObserver(InstanceColumns.CONTENT_URI, true,
                 contentObserver);
-
         setButtonsVisibility();
+        invalidateOptionsMenu();
     }
 
     private void setButtonsVisibility() {
@@ -353,12 +354,25 @@ public class MainMenuActivity extends CollectAbstractActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean showQRIcon = GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_PASSWORD).equals("");
+
+        menu.findItem(R.id.qrcode_scan).setVisible(showQRIcon);
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.qrcode_scan:
+                //startActivity(new Intent(this, ));
+                return true;
             case R.id.menu_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 return true;
