@@ -86,16 +86,18 @@ public class AdminPreferencesActivity extends CollectAbstractActivity implements
         setTitle(R.string.admin_preferences);
 
         String fragment_extra = getIntent().getStringExtra(AdminPreferencesActivity.EXTRA_FRAGMENT);
-        if (savedInstanceState == null && fragment_extra == null) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, new AdminPreferencesFragment(), TAG)
-                    .commit();
-        } else if (fragment_extra.equals(ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT)) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, new ShowQRCodeFragment(), null)
-                    .commit();
+        if (savedInstanceState == null) {
+            if (fragment_extra == null) {
+                getFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, new AdminPreferencesFragment(), TAG)
+                        .commit();
+            } else if (fragment_extra.equals(ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT)) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.container, new ShowQRCodeFragment(), null)
+                            .commit();
+            }
         }
     }
 
