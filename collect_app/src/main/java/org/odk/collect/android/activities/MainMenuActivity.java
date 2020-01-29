@@ -89,6 +89,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private Button viewSentFormsButton;
     private Button reviewDataButton;
     private Button getFormsButton;
+    private MenuItem qrcodeScannerMenuItem;
     private AlertDialog alertDialog;
     private SharedPreferences adminPreferences;
     private int completedCount;
@@ -355,15 +356,18 @@ public class MainMenuActivity extends CollectAbstractActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-
+        qrcodeScannerMenuItem = menu.findItem(R.id.qrcode_scan);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean showQRIcon = GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_PASSWORD).equals("");
+        boolean showQRIcon = (GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_SERVER_URL).equals(getString(R.string.default_server_url)) &&
+                GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_PASSWORD).equals("") &&
+                GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_USERNAME).equals("")) &&
+                this.getSharedPreferences(AdminPreferencesActivity.ADMIN_PREFERENCES, 0).getBoolean(AdminKeys.KEY_QR_CODE_SCANNER, true);
 
-        menu.findItem(R.id.qrcode_scan).setVisible(showQRIcon);
+        qrcodeScannerMenuItem.setVisible(showQRIcon);
 
         return super.onPrepareOptionsMenu(menu);
     }
