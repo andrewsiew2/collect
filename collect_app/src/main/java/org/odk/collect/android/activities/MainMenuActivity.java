@@ -362,13 +362,17 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean showQRIcon = (GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_SERVER_URL).equals(getString(R.string.default_server_url)) &&
+
+        if(!this.getSharedPreferences(AdminPreferencesActivity.ADMIN_PREFERENCES, 0).getBoolean(AdminKeys.KEY_QR_CODE_SCANNER, true)){
+            qrcodeScannerMenuItem.setVisible(false);
+            return super.onPrepareOptionsMenu(menu);
+        }
+
+        boolean defaultSettings = (GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_SERVER_URL).equals(getString(R.string.default_server_url)) &&
                 GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_PASSWORD).equals("") &&
-                GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_USERNAME).equals("")) &&
-                this.getSharedPreferences(AdminPreferencesActivity.ADMIN_PREFERENCES, 0).getBoolean(AdminKeys.KEY_QR_CODE_SCANNER, true);
+                GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_USERNAME).equals(""));
 
-        qrcodeScannerMenuItem.setVisible(showQRIcon);
-
+        qrcodeScannerMenuItem.setVisible(defaultSettings);
         return super.onPrepareOptionsMenu(menu);
     }
 

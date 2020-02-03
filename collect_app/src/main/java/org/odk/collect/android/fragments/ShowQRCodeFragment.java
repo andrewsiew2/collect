@@ -89,6 +89,7 @@ public class ShowQRCodeFragment extends Fragment {
     private final boolean[] checkedItems = {true, true};
 
     public static final String EXTRA_QRCODEFRAGMENT = "org.odk.collect.android.EXTRA_QRCodeFragment";
+    public static final String BUNDLE_START_QR_CAMERA = "QRCodeFragmeng.start_QRCamera";
 
     @BindView(R.id.ivQRcode)
     ImageView ivQRCode;
@@ -100,6 +101,8 @@ public class ShowQRCodeFragment extends Fragment {
     private Intent shareIntent;
     private AlertDialog dialog;
 
+    private boolean immediatelyStartCamera = false; // start ShowQRCodeFragment started from qrcode icon from main menu
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -109,7 +112,20 @@ public class ShowQRCodeFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
         generateCode();
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        immediatelyStartCamera = (getArguments() != null && getArguments().getBoolean(BUNDLE_START_QR_CAMERA, false)) ||
+                (savedInstanceState != null && savedInstanceState.getBoolean(BUNDLE_START_QR_CAMERA));
+        if (immediatelyStartCamera) {
+            view.findViewById(R.id.btnScan).performClick();
+        };
+
     }
 
     private void generateCode() {
@@ -223,6 +239,10 @@ public class ShowQRCodeFragment extends Fragment {
             if (result.getContents() == null) {
                 // request was canceled...
                 Timber.i("QR code scanning cancelled");
+
+                if (immediatelyStartCamera) {
+                    getActivity().finish();
+                }
             } else {
                 try {
                     applySettings(CompressionUtils.decompress(result.getContents()));
@@ -277,7 +297,7 @@ public class ShowQRCodeFragment extends Fragment {
                 getActivity().finish();
                 final LocaleHelper localeHelper = new LocaleHelper();
                 localeHelper.updateLocale(getActivity());
-                MainMenuActivity.startActivityAndCloseAllOthers(getActivity());
+
             }
 
             @Override
@@ -340,5 +360,22 @@ public class ShowQRCodeFragment extends Fragment {
             keys.add(KEY_PASSWORD);
         }
         return keys;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(BUNDLE_START_QR_CAMERA, immediatelyStartCamera);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }

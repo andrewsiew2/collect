@@ -93,10 +93,15 @@ public class AdminPreferencesActivity extends CollectAbstractActivity implements
                         .add(R.id.container, new AdminPreferencesFragment(), TAG)
                         .commit();
             } else if (fragment_extra.equals(ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT)) {
-                    getFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.container, new ShowQRCodeFragment(), null)
-                            .commit();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(ShowQRCodeFragment.BUNDLE_START_QR_CAMERA, true);
+                ShowQRCodeFragment showQRCodeFragment = new ShowQRCodeFragment();
+                showQRCodeFragment.setArguments(bundle);
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, showQRCodeFragment, null)
+                        .commit();
             }
         }
     }
