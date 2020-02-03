@@ -88,8 +88,6 @@ public class ShowQRCodeFragment extends Fragment {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final boolean[] checkedItems = {true, true};
 
-    public static final String EXTRA_QRCODEFRAGMENT = "org.odk.collect.android.EXTRA_QRCodeFragment";
-
     @BindView(R.id.ivQRcode)
     ImageView ivQRCode;
     @BindView(R.id.circularProgressBar)
