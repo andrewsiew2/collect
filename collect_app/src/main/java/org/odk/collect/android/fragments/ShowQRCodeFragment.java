@@ -48,10 +48,13 @@ import org.odk.collect.android.activities.ScannerWithFlashlightActivity;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.listeners.ActionListener;
 import org.odk.collect.android.listeners.PermissionListener;
+import org.odk.collect.android.preferences.AdminKeys;
 import org.odk.collect.android.preferences.AdminPreferencesActivity;
 import org.odk.collect.android.preferences.AdminSharedPreferences;
+import org.odk.collect.android.preferences.GeneralKeys;
 import org.odk.collect.android.preferences.GeneralSharedPreferences;
 import org.odk.collect.android.preferences.PreferenceSaver;
+import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.utilities.CompressionUtils;
 import org.odk.collect.android.utilities.FileUtils;
 import org.odk.collect.android.utilities.LocaleHelper;
@@ -298,6 +301,16 @@ public class ShowQRCodeFragment extends Fragment {
                 final LocaleHelper localeHelper = new LocaleHelper();
                 localeHelper.updateLocale(getActivity());
 
+                boolean defaultSettings = (GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_SERVER_URL).equals(getString(R.string.default_server_url)) &&
+                        GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_PASSWORD).equals("") &&
+                        GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_USERNAME).equals(""));
+                if(!defaultSettings) {
+                    getActivity().getSharedPreferences(AdminPreferencesActivity.ADMIN_PREFERENCES, 0).edit().putBoolean(AdminKeys.KEY_QR_CODE_SCANNER, false).apply();
+                }
+                Intent intent = new Intent(getActivity(), PreferencesActivity.class);
+                intent.putExtra(PreferencesActivity.INTENT_QRCodeFragment, true);
+                startActivity(intent);
+                getActivity().finish();
             }
 
             @Override
