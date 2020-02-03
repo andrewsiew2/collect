@@ -43,6 +43,7 @@ import android.widget.TextView;
 import org.odk.collect.android.R;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.dao.InstancesDao;
+import org.odk.collect.android.fragments.ShowQRCodeFragment;
 import org.odk.collect.android.preferences.AdminKeys;
 import org.odk.collect.android.preferences.AdminPreferencesActivity;
 import org.odk.collect.android.preferences.AdminSharedPreferences;
@@ -375,7 +376,9 @@ public class MainMenuActivity extends CollectAbstractActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.qrcode_scan:
-                //startActivity(new Intent(this, ));
+                Intent intent = new Intent(this, AdminPreferencesActivity.class);
+                intent.putExtra(AdminPreferencesActivity.EXTRA_FRAGMENT, ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT);
+                startActivity(intent);
                 return true;
             case R.id.menu_about:
                 startActivity(new Intent(this, AboutActivity.class));

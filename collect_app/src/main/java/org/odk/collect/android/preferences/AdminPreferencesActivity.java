@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.CollectAbstractActivity;
 import org.odk.collect.android.activities.MainMenuActivity;
+import org.odk.collect.android.fragments.ShowQRCodeFragment;
 import org.odk.collect.android.fragments.dialogs.MovingBackwardsDialog;
 import org.odk.collect.android.fragments.dialogs.ResetSettingsResultDialog;
 import org.odk.collect.android.utilities.ThemeUtils;
@@ -43,6 +44,8 @@ import timber.log.Timber;
 public class AdminPreferencesActivity extends CollectAbstractActivity implements MovingBackwardsDialog.MovingBackwardsDialogListener, ResetSettingsResultDialog.ResetSettingsResultDialogListener {
     public static final String ADMIN_PREFERENCES = "admin_prefs";
     public static final String TAG = "AdminPreferencesFragment";
+
+    public static final String EXTRA_FRAGMENT = "org.odk.collect.android.EXTRA_AdminPreferencesActivityFragment";
 
     public static boolean saveSharedPreferencesToFile(File dst, Context context) {
         // this should be in a thread if it gets big, but for now it's tiny
@@ -81,10 +84,17 @@ public class AdminPreferencesActivity extends CollectAbstractActivity implements
         setTheme(new ThemeUtils(this).getSettingsTheme());
 
         setTitle(R.string.admin_preferences);
-        if (savedInstanceState == null) {
+
+        String fragment_extra = getIntent().getStringExtra(AdminPreferencesActivity.EXTRA_FRAGMENT);
+        if (savedInstanceState == null && fragment_extra == null) {
             getFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, new AdminPreferencesFragment(), TAG)
+                    .commit();
+        } else if (fragment_extra.equals(ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT)) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new ShowQRCodeFragment(), null)
                     .commit();
         }
     }
