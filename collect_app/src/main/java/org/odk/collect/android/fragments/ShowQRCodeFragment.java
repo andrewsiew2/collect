@@ -300,17 +300,6 @@ public class ShowQRCodeFragment extends Fragment {
                 getActivity().finish();
                 final LocaleHelper localeHelper = new LocaleHelper();
                 localeHelper.updateLocale(getActivity());
-
-                boolean defaultSettings = (GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_SERVER_URL).equals(getString(R.string.default_server_url)) &&
-                        GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_PASSWORD).equals("") &&
-                        GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_USERNAME).equals(""));
-                if(!defaultSettings) {
-                    getActivity().getSharedPreferences(AdminPreferencesActivity.ADMIN_PREFERENCES, 0).edit().putBoolean(AdminKeys.KEY_QR_CODE_SCANNER, false).apply();
-                }
-                Intent intent = new Intent(getActivity(), PreferencesActivity.class);
-                intent.putExtra(PreferencesActivity.INTENT_QRCodeFragment, true);
-                startActivity(intent);
-                getActivity().finish();
             }
 
             @Override

@@ -16,6 +16,8 @@ public final class AdminKeys {
     public static final String KEY_ADMIN_PW                     = "admin_pw";
 
     // keys for each preference
+    // Start up
+    public static final String KEY_FIRST_STARTUP                = "first_startup";
 
     // main menu
     public static final String KEY_EDIT_SAVED                   = "edit_saved";
@@ -23,7 +25,7 @@ public final class AdminKeys {
     public static final String KEY_VIEW_SENT                    = "view_sent";
     public static final String KEY_GET_BLANK                    = "get_blank";
     public static final String KEY_DELETE_SAVED                 = "delete_saved";
-    public static final String KEY_QR_CODE_SCANNER             = "qr_code_scanner";
+    public static final String KEY_QR_CODE_SCANNER              = "qr_code_scanner";
 
     // form entry
     public static final String KEY_SAVE_MID                     = "save_mid";
@@ -103,6 +105,7 @@ public final class AdminKeys {
 
     /** Admin keys other than those in adminToGeneral above */
     private static Collection<String> otherKeys = Arrays.asList(
+            KEY_FIRST_STARTUP,
             KEY_EDIT_SAVED,
             KEY_SEND_FINALIZED,
             KEY_VIEW_SENT,
