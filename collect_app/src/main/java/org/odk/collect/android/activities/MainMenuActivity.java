@@ -265,6 +265,35 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         adminPreferences = this.getSharedPreferences(
                 AdminPreferencesActivity.ADMIN_PREFERENCES, 0);
+        checkFirstRun();
+    }
+
+    public void checkFirstRun() {
+
+        boolean isFirstRun = this.getSharedPreferences(
+                AdminPreferencesActivity.ADMIN_PREFERENCES, 0).getBoolean(AdminKeys.KEY_EDIT_SAVED, true);
+        if (isFirstRun){
+            Intent intent = new Intent(this, AdminPreferencesActivity.class);
+            intent.putExtra(AdminPreferencesActivity.EXTRA_FRAGMENT, ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT);
+            new AlertDialog.Builder(MainMenuActivity.this)
+                    .setTitle("Do you want to configure server settings via QR code?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
+            this.getSharedPreferences(
+                    AdminPreferencesActivity.ADMIN_PREFERENCES, 0)
+                    .edit()
+                    .putBoolean(AdminKeys.KEY_EDIT_SAVED, false)
+                    .apply();
+        }
     }
 
     private void initToolbar() {
