@@ -103,10 +103,6 @@ public class AdminPreferencesActivity extends CollectAbstractActivity implements
                         .add(R.id.preferences_fragment_container, showQRCodeFragment, null)
                         .commit();
             }
-            getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.preferences_fragment_container, new AdminPreferencesFragment(), TAG)
-                    .commit();
         }
     }
 

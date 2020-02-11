@@ -32,7 +32,7 @@ limitations under the License.
         app:showAsAction="never"/>
     <item
         android:id="@+id/menu_configure_qr_code"
-        android:title="@string/qr_code"
+        android:title="@string/scan_qrcode_overflow_menu"
         app:showAsAction="never"/>
 
 </menu>
