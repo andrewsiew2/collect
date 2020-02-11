@@ -52,7 +52,7 @@ public class PreferencesActivity extends CollectAbstractActivity {
 
             getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, fragment, TAG)
+                    .add(R.id.preferences_fragment_container, fragment, TAG)
                     .commit();
         }
     }

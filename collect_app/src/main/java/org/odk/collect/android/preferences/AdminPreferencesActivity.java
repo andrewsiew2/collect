@@ -90,7 +90,7 @@ public class AdminPreferencesActivity extends CollectAbstractActivity implements
             if (fragment_extra == null) {
                 getFragmentManager()
                         .beginTransaction()
-                        .add(R.id.container, new AdminPreferencesFragment(), TAG)
+                        .add(R.id.preferences_fragment_container, new AdminPreferencesFragment(), TAG)
                         .commit();
             } else if (fragment_extra.equals(ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT)) {
                 Bundle bundle = new Bundle();
@@ -100,9 +100,13 @@ public class AdminPreferencesActivity extends CollectAbstractActivity implements
 
                 getFragmentManager()
                         .beginTransaction()
-                        .add(R.id.container, showQRCodeFragment, null)
+                        .add(R.id.preferences_fragment_container, showQRCodeFragment, null)
                         .commit();
             }
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.preferences_fragment_container, new AdminPreferencesFragment(), TAG)
+                    .commit();
         }
     }
 
