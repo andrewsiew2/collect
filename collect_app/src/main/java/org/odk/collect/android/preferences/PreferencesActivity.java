@@ -30,6 +30,8 @@ public class PreferencesActivity extends CollectAbstractActivity {
     public static final String TAG = "GeneralPreferencesFragment";
     public static final String INTENT_KEY_ADMIN_MODE = "adminMode";
 
+    public static final String INTENT_QRCODE_FRAGMENT = "org.odk.collect.android.PreferencesActivity.fromqrcodefragment";
+
     private OnBackPressedListener onBackPressedListener;
 
     @Override
@@ -41,10 +43,16 @@ public class PreferencesActivity extends CollectAbstractActivity {
         setTitle(R.string.general_preferences);
         if (savedInstanceState == null) {
             boolean adminMode = getIntent().getBooleanExtra(INTENT_KEY_ADMIN_MODE, false);
+            boolean fromQrCodeFragment = getIntent().getBooleanExtra(INTENT_QRCODE_FRAGMENT, false);
+
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(INTENT_QRCODE_FRAGMENT, fromQrCodeFragment);
             Fragment fragment = GeneralPreferencesFragment.newInstance(adminMode);
+            fragment.setArguments(bundle);
+
             getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, fragment, TAG)
+                    .add(R.id.preferences_fragment_container, fragment, TAG)
                     .commit();
         }
     }

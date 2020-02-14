@@ -54,6 +54,9 @@ import org.odk.collect.android.preferences.PreferenceSaver;
 import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
+import org.odk.collect.android.storage.StorageInitializer;
+import org.odk.collect.android.storage.StoragePathProvider;
+import org.odk.collect.android.storage.StorageSubdirectory;
 import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.PlayServicesUtil;
 import org.odk.collect.android.utilities.SharedPreferencesUtils;
@@ -68,7 +71,6 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-import static org.odk.collect.android.preferences.GeneralKeys.GENERAL_KEYS;
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 
 /**
@@ -221,7 +223,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         // external intent
         Timber.i("Starting up, creating directories");
         try {
-            Collect.createODKDirs();
+            new StorageInitializer().createODKDirs();
         } catch (RuntimeException e) {
             createErrorDialog(e.getMessage(), EXIT);
             return;
@@ -234,8 +236,9 @@ public class MainMenuActivity extends CollectAbstractActivity {
                     .getVersionedAppName());
         }
 
-        File f = new File(Collect.ODK_ROOT + "/collect.settings");
-        File j = new File(Collect.ODK_ROOT + "/collect.settings.json");
+        StoragePathProvider storagePathProvider = new StoragePathProvider();
+        File f = new File(storagePathProvider.getDirPath(StorageSubdirectory.ODK) + "/collect.settings");
+        File j = new File(storagePathProvider.getDirPath(StorageSubdirectory.ODK) + "/collect.settings.json");
         // Give JSON file preference
         if (j.exists()) {
             boolean success = SharedPreferencesUtils.loadSharedPreferencesFromJSONFile(j);
@@ -356,30 +359,20 @@ public class MainMenuActivity extends CollectAbstractActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        qrcodeScannerMenuItem = menu.findItem(R.id.qrcode_scan);
+        qrcodeScannerMenuItem = menu.findItem(R.id.menu_configure_qr_code);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
-        if(!this.getSharedPreferences(AdminPreferencesActivity.ADMIN_PREFERENCES, 0).getBoolean(AdminKeys.KEY_QR_CODE_SCANNER, true)){
-            qrcodeScannerMenuItem.setVisible(false);
-            return super.onPrepareOptionsMenu(menu);
-        }
-
-        boolean defaultSettings = (GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_SERVER_URL).equals(getString(R.string.default_server_url)) &&
-                GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_PASSWORD).equals("") &&
-                GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_USERNAME).equals(""));
-
-        qrcodeScannerMenuItem.setVisible(defaultSettings);
+        qrcodeScannerMenuItem.setVisible(this.getSharedPreferences(AdminPreferencesActivity.ADMIN_PREFERENCES, 0).getBoolean(AdminKeys.KEY_QR_CODE_SCANNER, true));
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.qrcode_scan:
+            case R.id.menu_configure_qr_code:
                 Intent intent = new Intent(this, AdminPreferencesActivity.class);
                 intent.putExtra(AdminPreferencesActivity.EXTRA_FRAGMENT, ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT);
                 startActivity(intent);

@@ -33,6 +33,7 @@ import org.javarosa.core.model.RangeQuestion;
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.FormEntryActivity;
 import org.odk.collect.android.formentry.questions.QuestionDetails;
+import org.odk.collect.android.formentry.questions.WidgetViewUtils;
 import org.odk.collect.android.fragments.dialogs.NumberPickerDialog;
 import org.odk.collect.android.utilities.ToastUtils;
 import org.odk.collect.android.widgets.interfaces.ButtonWidget;
@@ -40,6 +41,9 @@ import org.odk.collect.android.widgets.interfaces.ButtonWidget;
 import java.math.BigDecimal;
 
 import timber.log.Timber;
+
+import static org.odk.collect.android.formentry.questions.WidgetViewUtils.createAnswerTextView;
+import static org.odk.collect.android.formentry.questions.WidgetViewUtils.createSimpleButton;
 
 @SuppressWarnings("BigDecimalMethodWithoutRoundingCalled")
 public abstract class RangeWidget extends QuestionWidget implements ButtonWidget, SeekBar.OnSeekBarChangeListener {
@@ -80,7 +84,7 @@ public abstract class RangeWidget extends QuestionWidget implements ButtonWidget
             seekBar.setEnabled(false);
         }
 
-        addAnswerView(view);
+        addAnswerView(view, WidgetViewUtils.getStandardMargin(context));
     }
 
     @Override
@@ -229,9 +233,9 @@ public abstract class RangeWidget extends QuestionWidget implements ButtonWidget
             loadAppearance(R.layout.range_widget_horizontal, R.id.seek_bar);
 
         } else if (appearance.contains(PICKER_APPEARANCE)) {
-            pickerButton = getSimpleButton(getContext().getString(R.string.select_value));
+            pickerButton = createSimpleButton(getContext(), getFormEntryPrompt().isReadOnly(), getContext().getString(R.string.select_value), getAnswerFontSize(), this);
 
-            answerTextView = getAnswerTextView();
+            answerTextView = createAnswerTextView(getContext(), getAnswerFontSize());
             isPickerAppearance = true;
 
             view = new LinearLayout(getContext());

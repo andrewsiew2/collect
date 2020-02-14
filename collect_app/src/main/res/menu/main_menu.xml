@@ -17,13 +17,6 @@ limitations under the License.
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/qrcode_scan"
-        android:icon="@drawable/ic_qrcodescan"
-        android:title="@string/qr_code"
-        app:showAsAction="always"
-        />
-
-    <item
         android:id="@+id/menu_about"
         android:title="@string/about_preferences"
         app:showAsAction="never"/>
@@ -36,6 +29,10 @@ limitations under the License.
     <item
         android:id="@+id/menu_admin_preferences"
         android:title="@string/admin_preferences"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_configure_qr_code"
+        android:title="@string/scan_qrcode_overflow_menu"
         app:showAsAction="never"/>
 
 </menu>

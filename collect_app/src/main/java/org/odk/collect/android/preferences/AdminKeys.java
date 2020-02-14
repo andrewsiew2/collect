@@ -23,7 +23,7 @@ public final class AdminKeys {
     public static final String KEY_VIEW_SENT                    = "view_sent";
     public static final String KEY_GET_BLANK                    = "get_blank";
     public static final String KEY_DELETE_SAVED                 = "delete_saved";
-    public static final String KEY_QR_CODE_SCANNER             = "qr_code_scanner";
+    public static final String KEY_QR_CODE_SCANNER              = "qr_code_scanner";
 
     // form entry
     public static final String KEY_SAVE_MID                     = "save_mid";

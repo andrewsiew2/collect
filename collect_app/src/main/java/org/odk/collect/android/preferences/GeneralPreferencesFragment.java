@@ -53,6 +53,18 @@ public class GeneralPreferencesFragment extends BasePreferenceFragment implement
         if (!getArguments().getBoolean(INTENT_KEY_ADMIN_MODE)) {
             setPreferencesVisibility();
         }
+
+        boolean fromQRCodeFragment = getArguments() != null && getArguments().getBoolean(PreferencesActivity.INTENT_QRCodeFragment);
+
+        if (fromQRCodeFragment) {
+            boolean adminMode = getArguments().getBoolean(INTENT_KEY_ADMIN_MODE, false);
+            BasePreferenceFragment basePreferenceFragment = ServerPreferences.newInstance(adminMode);
+            getActivity().getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, basePreferenceFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
     @Override
@@ -79,7 +91,7 @@ public class GeneralPreferencesFragment extends BasePreferenceFragment implement
         if (basePreferenceFragment != null) {
             getActivity().getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.container, basePreferenceFragment)
+                    .replace(R.id.preferences_fragment_container, basePreferenceFragment)
                     .addToBackStack(null)
                     .commit();
         }

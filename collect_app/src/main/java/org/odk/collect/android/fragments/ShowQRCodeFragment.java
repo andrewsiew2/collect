@@ -43,12 +43,10 @@ import com.google.zxing.integration.android.IntentResult;
 import org.odk.collect.android.BuildConfig;
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.CollectAbstractActivity;
-import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.activities.ScannerWithFlashlightActivity;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.listeners.ActionListener;
 import org.odk.collect.android.listeners.PermissionListener;
-import org.odk.collect.android.preferences.AdminPreferencesActivity;
 import org.odk.collect.android.preferences.AdminSharedPreferences;
 import org.odk.collect.android.preferences.GeneralSharedPreferences;
 import org.odk.collect.android.preferences.PreferenceSaver;
@@ -101,7 +99,7 @@ public class ShowQRCodeFragment extends Fragment {
     private Intent shareIntent;
     private AlertDialog dialog;
 
-    private boolean immediatelyStartCamera = false; // start ShowQRCodeFragment started from qrcode icon from main menu
+    private boolean immediatelyStartCamera; // start ShowQRCodeFragment started from scan qrcode button from main menu
 
     @Nullable
     @Override
@@ -124,7 +122,7 @@ public class ShowQRCodeFragment extends Fragment {
                 (savedInstanceState != null && savedInstanceState.getBoolean(BUNDLE_START_QR_CAMERA));
         if (immediatelyStartCamera) {
             view.findViewById(R.id.btnScan).performClick();
-        };
+        }
 
     }
 
@@ -184,7 +182,7 @@ public class ShowQRCodeFragment extends Fragment {
                 IntentIntegrator.forFragment(ShowQRCodeFragment.this)
                         .setCaptureActivity(ScannerWithFlashlightActivity.class)
                         .setBeepEnabled(true)
-                        .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+                        .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
                         .setOrientationLocked(false)
                         .setPrompt(getString(R.string.qrcode_scanner_prompt))
                         .initiateScan();
@@ -297,7 +295,6 @@ public class ShowQRCodeFragment extends Fragment {
                 getActivity().finish();
                 final LocaleHelper localeHelper = new LocaleHelper();
                 localeHelper.updateLocale(getActivity());
-
             }
 
             @Override
@@ -325,25 +322,6 @@ public class ShowQRCodeFragment extends Fragment {
                     startActivity(Intent.createChooser(shareIntent, getString(R.string.share_qrcode)));
                 }
                 return true;
-            case R.id.menu_save_preferences:
-                File writeDir = new File(Collect.SETTINGS);
-                if (!writeDir.exists()) {
-                    if (!writeDir.mkdirs()) {
-                        ToastUtils.showShortToast("Error creating directory "
-                                + writeDir.getAbsolutePath());
-                        return false;
-                    }
-                }
-
-                File dst = new File(writeDir.getAbsolutePath() + "/collect.settings");
-                boolean success = AdminPreferencesActivity.saveSharedPreferencesToFile(dst, getActivity());
-                if (success) {
-                    ToastUtils.showLongToast("Settings successfully written to "
-                            + dst.getAbsolutePath());
-                } else {
-                    ToastUtils.showLongToast("Error writing settings to " + dst.getAbsolutePath());
-                }
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -367,15 +345,5 @@ public class ShowQRCodeFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putBoolean(BUNDLE_START_QR_CAMERA, immediatelyStartCamera);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 }
