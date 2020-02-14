@@ -43,16 +43,13 @@ import com.google.zxing.integration.android.IntentResult;
 import org.odk.collect.android.BuildConfig;
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.CollectAbstractActivity;
-import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.activities.ScannerWithFlashlightActivity;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.listeners.ActionListener;
 import org.odk.collect.android.listeners.PermissionListener;
 import org.odk.collect.android.preferences.AdminSharedPreferences;
-import org.odk.collect.android.preferences.GeneralKeys;
 import org.odk.collect.android.preferences.GeneralSharedPreferences;
 import org.odk.collect.android.preferences.PreferenceSaver;
-import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.utilities.CompressionUtils;
 import org.odk.collect.android.utilities.FileUtils;
 import org.odk.collect.android.utilities.LocaleHelper;
@@ -102,7 +99,7 @@ public class ShowQRCodeFragment extends Fragment {
     private Intent shareIntent;
     private AlertDialog dialog;
 
-    private boolean immediatelyStartCamera = false; // start ShowQRCodeFragment started from qrcode icon from main menu
+    private boolean immediatelyStartCamera; // start ShowQRCodeFragment started from scan qrcode button from main menu
 
     @Nullable
     @Override
@@ -125,7 +122,7 @@ public class ShowQRCodeFragment extends Fragment {
                 (savedInstanceState != null && savedInstanceState.getBoolean(BUNDLE_START_QR_CAMERA));
         if (immediatelyStartCamera) {
             view.findViewById(R.id.btnScan).performClick();
-        };
+        }
 
     }
 
@@ -348,15 +345,5 @@ public class ShowQRCodeFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putBoolean(BUNDLE_START_QR_CAMERA, immediatelyStartCamera);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 }

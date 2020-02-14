@@ -71,7 +71,6 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-import static org.odk.collect.android.preferences.GeneralKeys.GENERAL_KEYS;
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 
 /**

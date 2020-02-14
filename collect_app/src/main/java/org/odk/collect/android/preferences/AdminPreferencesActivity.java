@@ -85,14 +85,14 @@ public class AdminPreferencesActivity extends CollectAbstractActivity implements
 
         setTitle(R.string.admin_preferences);
 
-        String fragment_extra = getIntent().getStringExtra(AdminPreferencesActivity.EXTRA_FRAGMENT);
+        String fragmentExtra = getIntent().getStringExtra(AdminPreferencesActivity.EXTRA_FRAGMENT);
         if (savedInstanceState == null) {
-            if (fragment_extra == null) {
+            if (fragmentExtra == null) {
                 getFragmentManager()
                         .beginTransaction()
                         .add(R.id.preferences_fragment_container, new AdminPreferencesFragment(), TAG)
                         .commit();
-            } else if (fragment_extra.equals(ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT)) {
+            } else if (fragmentExtra.equals(ShowQRCodeFragment.EXTRA_QRCODEFRAGMENT)) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(ShowQRCodeFragment.BUNDLE_START_QR_CAMERA, true);
                 ShowQRCodeFragment showQRCodeFragment = new ShowQRCodeFragment();
