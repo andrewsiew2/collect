@@ -15,7 +15,6 @@ package org.odk.collect.android.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -102,10 +102,7 @@ public class ShowQRCodeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.show_qrcode_fragment, container, false);
-        ((CollectAbstractActivity) getActivity()).initToolbar(getString(R.string.import_export_settings));
         ButterKnife.bind(this, view);
-        setHasOptionsMenu(true);
-        setRetainInstance(true);
         generateCode();
         return view;
     }
@@ -158,25 +155,25 @@ public class ShowQRCodeFragment extends Fragment {
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
     }
 
-    @OnClick(R.id.btnScan)
-    void scanButtonClicked() {
-        new PermissionUtils().requestCameraPermission(getActivity(), new PermissionListener() {
-            @Override
-            public void granted() {
-                IntentIntegrator.forFragment(ShowQRCodeFragment.this)
-                        .setCaptureActivity(ScannerWithFlashlightActivity.class)
-                        .setBeepEnabled(true)
-                        .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
-                        .setOrientationLocked(false)
-                        .setPrompt(getString(R.string.qrcode_scanner_prompt))
-                        .initiateScan();
-            }
-
-            @Override
-            public void denied() {
-            }
-        });
-    }
+//    @OnClick(R.id.btnScan)
+//    void scanButtonClicked() {
+//        new PermissionUtils().requestCameraPermission(getActivity(), new PermissionListener() {
+//            @Override
+//            public void granted() {
+//                IntentIntegrator.forFragment(ShowQRCodeFragment.this)
+//                        .setCaptureActivity(ScannerWithFlashlightActivity.class)
+//                        .setBeepEnabled(true)
+//                        .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+//                        .setOrientationLocked(false)
+//                        .setPrompt(getString(R.string.qrcode_scanner_prompt))
+//                        .initiateScan();
+//            }
+//
+//            @Override
+//            public void denied() {
+//            }
+//        });
+//    }
 
     @OnClick(R.id.btnSelect)
     void chooseButtonClicked() {

@@ -17,6 +17,7 @@ package org.odk.collect.android.preferences;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -30,7 +31,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import org.odk.collect.android.R;
-import org.odk.collect.android.fragments.ShowQRCodeFragment;
+import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.fragments.dialogs.MovingBackwardsDialog;
 import org.odk.collect.android.fragments.dialogs.SimpleDialog;
 import org.odk.collect.android.utilities.ToastUtils;
@@ -127,7 +128,8 @@ public class AdminPreferencesFragment extends BasePreferenceFragment implements 
                 break;
 
             case KEY_IMPORT_SETTINGS:
-                fragment = new ShowQRCodeFragment();
+                Intent pref = new Intent(getActivity(), QRCodeTabs.class);
+                startActivity(pref);
                 break;
 
             case "main_menu":
