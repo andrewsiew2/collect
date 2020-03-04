@@ -11,6 +11,17 @@ public final class TestInstancesRepository implements InstancesRepository {
     }
 
     @Override
+    public Instance getBy(long databaseId) {
+        for (Instance instance : instances) {
+            if (instance.getDatabaseId() == databaseId) {
+                return instance;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public List<Instance> getAllBy(String formId) {
         List<Instance> result = new ArrayList<>();
 
@@ -28,7 +39,7 @@ public final class TestInstancesRepository implements InstancesRepository {
         List<Instance> result = new ArrayList<>();
 
         for (Instance instance : instances) {
-            if (instance.getInstanceFilePath().equals(instancePath)) {
+            if (instance.getAbsoluteInstanceFilePath().equals(instancePath)) {
                 result.add(instance);
             }
         }

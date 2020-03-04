@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAction;
-
 import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
@@ -81,14 +80,14 @@ abstract class Page<T extends Page<T>> {
         return destination.assertOnPage();
     }
 
-    public T checkIsTextDisplayed(String text) {
-        onView(withText(text)).check(matches(isDisplayed()));
+    public T assertText(String text) {
+        onView(allOf(withText(text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(matches(isDisplayed()));
         return (T) this;
     }
 
-    public T checkIsTextDisplayed(String...  text) {
-        for (String s : text) {
-            onView(withText(s)).check(matches(isDisplayed()));
+    public T assertText(String...  text) {
+        for (String t : text) {
+            onView(allOf(withText(t), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(matches(isDisplayed()));
         }
         return (T) this;
     }
@@ -119,7 +118,7 @@ abstract class Page<T extends Page<T>> {
     }
 
     public T checkIsStringDisplayed(int stringID) {
-        checkIsTextDisplayed(getTranslatedString(stringID));
+        assertText(getTranslatedString(stringID));
         return (T) this;
     }
 
@@ -163,6 +162,10 @@ abstract class Page<T extends Page<T>> {
 
     String getTranslatedString(Integer id) {
         return getCurrentActivity().getString(id);
+    }
+
+    String getTranslatedString(Integer id, Object... formatArgs) {
+        return getCurrentActivity().getString(id, formatArgs);
     }
 
     public T clickOnAreaWithIndex(String clazz, int index) {
@@ -254,7 +257,7 @@ abstract class Page<T extends Page<T>> {
         return (T) this;
     }
 
-    public T scrollToAndCheckIsDisplayed(String text) {
+    public T scrollToAndAssertText(String text) {
         onView(withText(text)).perform(nestedScrollTo());
         onView(withText(text)).check(matches(isDisplayed()));
         return (T) this;
@@ -279,6 +282,23 @@ abstract class Page<T extends Page<T>> {
     public T checkIfWebViewActivityIsDisplayed() {
         onView(withClassName(endsWith("WebView"))).check(matches(isDisplayed()));
         return (T) this;
+    }
+
+    void waitForText(String text) {
+        while (true) {
+            try {
+                assertText(text);
+                break;
+            } catch (NoMatchingViewException ignored) {
+                // ignored
+            }
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {
+                // ignored
+            }
+        }
     }
 }
 

@@ -78,18 +78,18 @@ public class FillBlankFormWithRepeatGroupTest extends BaseRegressionTest {
                 .inputText("25")
                 .closeSoftKeyboard()
                 .swipeToNextQuestion()
-                .checkIsTextDisplayed("gr1 > 1 > Person: 25")
+                .assertText("gr1 > 1 > Person: 25")
                 .clickGoToArrow()
-                .checkIsTextDisplayed("gr1 > 1 > Person: 25")
+                .assertText("gr1 > 1 > Person: 25")
                 .clickOnText("Photo")
                 .swipeToNextQuestion()
                 .clickOnDoNotAddGroup()
                 .inputText("SecondPart")
                 .closeSoftKeyboard()
                 .swipeToNextQuestion()
-                .checkIsTextDisplayed("Part1 > 1 > Xxx: SecondPart")
+                .assertText("Part1 > 1 > Xxx: SecondPart")
                 .clickGoToArrow()
-                .checkIsTextDisplayed("Part1 > 1 > Xxx: SecondPart")
+                .assertText("Part1 > 1 > Xxx: SecondPart")
                 .clickOnText("Date")
                 .swipeToNextQuestion()
                 .swipeToNextQuestion()
@@ -188,8 +188,8 @@ public class FillBlankFormWithRepeatGroupTest extends BaseRegressionTest {
                 .clickUseSwipesAndButtons()
                 .pressBack(new GeneralSettingsPage(rule))
                 .pressBack(new MainMenuPage(rule))
-                .startBlankFormWithRepeatGroup("RepeatGroupAndGroup")
-                .clickOnDoNotAddGroup(new FormEntryPage("RepeatGroupAndGroup", rule))
+                .startBlankFormWithRepeatGroup("RepeatGroupAndGroup", "G1")
+                .clickOnDoNotAdd(new FormEntryPage("RepeatGroupAndGroup", rule))
                 .closeSoftKeyboard()
                 .clickBackwardButton()
                 .clickOnDoNotAddGroup()
@@ -203,8 +203,8 @@ public class FillBlankFormWithRepeatGroupTest extends BaseRegressionTest {
 
         //TestCase7
         new MainMenuPage(rule)
-                .startBlankFormWithRepeatGroup("RepeatGroupNew")
-                .clickOnAddGroup(new FormEntryPage("RepeatGroupNew", rule))
+                .startBlankFormWithRepeatGroup("RepeatGroupNew", "People")
+                .clickOnAdd(new FormEntryPage("RepeatGroupNew", rule))
                 .inputText("A")
                 .closeSoftKeyboard()
                 .swipeToNextQuestion()
@@ -227,7 +227,7 @@ public class FillBlankFormWithRepeatGroupTest extends BaseRegressionTest {
                 .swipeToNextQuestion()
                 .clickOnDoNotAddGroup()
                 .swipeToPreviousQuestion()
-                .checkIsTextDisplayed("3")
+                .assertText("3")
                 .swipeToNextQuestion()
                 .clickOnDoNotAddGroup()
                 .clickSaveAndExit();
@@ -238,8 +238,8 @@ public class FillBlankFormWithRepeatGroupTest extends BaseRegressionTest {
 
         //TestCase8
         new MainMenuPage(rule)
-                .startBlankFormWithRepeatGroup("RepeatGroupNew")
-                .clickOnAddGroup(new FormEntryPage("RepeatGroupNew", rule))
+                .startBlankFormWithRepeatGroup("RepeatGroupNew", "People")
+                .clickOnAdd(new FormEntryPage("RepeatGroupNew", rule))
                 .inputText("A")
                 .closeSoftKeyboard()
                 .swipeToNextQuestion()
@@ -259,9 +259,9 @@ public class FillBlankFormWithRepeatGroupTest extends BaseRegressionTest {
                 .swipeToNextQuestion()
                 .inputText("3")
                 .clickGoToArrow()
-                .checkIsTextDisplayed("People > 3 > Person: C")
+                .assertText("People > 3 > Person: C")
                 .clickGoUpIcon()
-                .checkIsTextDisplayed("3.\u200E Person: C")
+                .assertText("3.\u200E Person: C")
                 .clickJumpEndButton()
                 .clickSaveAndExit();
     }
@@ -278,7 +278,7 @@ public class FillBlankFormWithRepeatGroupTest extends BaseRegressionTest {
                 .inputText("2")
                 .closeSoftKeyboard()
                 .clickGoToArrow()
-                .checkIsTextDisplayed("2")
+                .assertText("2")
                 .clickJumpEndButton()
                 .clickSaveAndExit();
     }
@@ -288,8 +288,8 @@ public class FillBlankFormWithRepeatGroupTest extends BaseRegressionTest {
 
         //TestCase12
         new MainMenuPage(rule)
-                .startBlankFormWithRepeatGroup("Repeat Group")
-                .clickOnAddGroup(new FormEntryPage("Repeat Group", rule))
+                .startBlankFormWithRepeatGroup("Repeat Group", "Grp1")
+                .clickOnAdd(new FormEntryPage("Repeat Group", rule))
                 .swipeToNextQuestion()
                 .clickOnDoNotAddGroup()
                 .swipeToNextQuestion()

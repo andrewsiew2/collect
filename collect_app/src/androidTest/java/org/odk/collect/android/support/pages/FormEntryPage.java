@@ -12,6 +12,7 @@ import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.swipeRight;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -19,10 +20,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.odk.collect.android.test.CustomMatchers.withIndex;
 
@@ -173,22 +176,37 @@ public class FormEntryPage extends Page<FormEntryPage> {
     }
 
     public FormEntryPage clickOnDoNotAddGroup() {
-        clickOnString(R.string.add_repeat_no);
+        clickOnString(R.string.dont_add_repeat);
         return this;
     }
 
     public FormEntryPage clickOnAddGroup() {
-        clickOnString(R.string.add_another);
+        clickOnString(R.string.add_repeat);
         return this;
     }
 
-    public FormEntryPage checkIfMarkFinishedIsSelected() {
+    public FormEntryPage assertMarkFinishedIsSelected() {
         onView(withId(R.id.mark_finished)).check(matches(isChecked()));
         return this;
     }
 
-    public FormEntryPage checkIfMarkFinishedIsNotSelected() {
+    public FormEntryPage assertMarkFinishedIsNotSelected() {
         onView(withId(R.id.mark_finished)).check(matches(isNotChecked()));
+        return this;
+    }
+
+    public FormEntryPage clickMarkAsFinalized() {
+        onView(withId(R.id.mark_finished)).perform(click());
+        return this;
+    }
+
+    public FormEntryPage checkIfImageViewIsDisplayed() {
+        onView(withTagValue(is("ImageView"))).check(matches(isDisplayed()));
+        return this;
+    }
+
+    public FormEntryPage checkIfImageViewIsNotDisplayed() {
+        onView(withTagValue(is("ImageView"))).check(doesNotExist());
         return this;
     }
 

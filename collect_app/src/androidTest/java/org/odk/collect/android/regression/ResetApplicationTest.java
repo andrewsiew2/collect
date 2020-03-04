@@ -57,7 +57,7 @@ public class ResetApplicationTest extends BaseRegressionTest {
                 .clickJumpEndButton()
                 .clickSaveAndExit()
                 .clickEditSavedForm()
-                .checkIsTextDisplayed("All widgets")
+                .assertText("All widgets")
                 .pressBack(new MainMenuPage(rule))
                 .clickOnMenu()
                 .clickAdminSettings()
@@ -122,7 +122,7 @@ public class ResetApplicationTest extends BaseRegressionTest {
                 .clickOnMenu()
                 .clickGeneralSettings()
                 .clickOnUserInterface()
-                .checkIsTextDisplayed("español")
+                .assertText("español")
                 .pressBack(new GeneralSettingsPage(rule))
                 .pressBack(new MainMenuPage(rule))
                 .clickOnMenu()
@@ -157,7 +157,7 @@ public class ResetApplicationTest extends BaseRegressionTest {
                 .startBlankForm("All widgets")
                 .clickGoToArrow()
                 .clickJumpEndButton()
-                .checkIfMarkFinishedIsNotSelected()
+                .assertMarkFinishedIsNotSelected()
                 .clickSaveAndExit()
                 .clickOnMenu()
                 .clickAdminSettings()
@@ -175,7 +175,7 @@ public class ResetApplicationTest extends BaseRegressionTest {
                 .startBlankForm("All widgets")
                 .clickGoToArrow()
                 .clickJumpEndButton()
-                .checkIfMarkFinishedIsSelected()
+                .assertMarkFinishedIsSelected()
                 .clickSaveAndExit();
     }
 
