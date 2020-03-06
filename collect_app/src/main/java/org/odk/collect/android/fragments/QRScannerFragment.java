@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import timber.log.Timber;
 
 import com.google.zxing.ResultPoint;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
@@ -39,6 +40,10 @@ import org.odk.collect.android.preferences.QRCodeTabs;
 import org.odk.collect.android.utilities.CompressionUtils;
 import org.odk.collect.android.utilities.LocaleHelper;
 import org.odk.collect.android.utilities.ToastUtils;
+import org.odk.collect.android.activities.ScanQRCodeActivity;
+import org.odk.collect.android.activities.ScannerWithFlashlightActivity;
+import org.odk.collect.android.listeners.PermissionListener;
+import org.odk.collect.android.utilities.PermissionUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,20 +60,31 @@ public class QRScannerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_scan, container, false);
         barcodeView = rootView.findViewById(R.id.barcode_view);
-        barcodeView.decodeContinuous(new BarcodeCallback() {
+
+        new PermissionUtils().requestCameraPermission(getActivity(), new PermissionListener() {
             @Override
-            public void barcodeResult(BarcodeResult result) {
-                beepSound();
-                try {
-                    QRCodeTabs.applySettings(getActivity(), CompressionUtils.decompress(result.getText()));
-                } catch (IOException | DataFormatException | IllegalArgumentException e) {
-                    Timber.e(e);
-                    ToastUtils.showShortToast(getString(R.string.invalid_qrcode));
-                }
+            public void granted() {
+                barcodeView.decodeSingle(new BarcodeCallback() {
+                    @Override
+                    public void barcodeResult(BarcodeResult result) {
+                        beepSound();
+                        try {
+                            QRCodeTabs.applySettings(getActivity(), CompressionUtils.decompress(result.getText()));
+                        } catch (IOException | DataFormatException | IllegalArgumentException e) {
+                            Timber.e(e);
+                            ToastUtils.showShortToast(getString(R.string.invalid_qrcode));
+                        }
+                    }
+
+                    @Override
+                    public void possibleResultPoints(List<ResultPoint> resultPoints) {
+
+                    }
+                });
             }
 
             @Override
-            public void possibleResultPoints(List<ResultPoint> resultPoints) {
+            public void denied() {
 
             }
         });
