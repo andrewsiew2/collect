@@ -1,8 +1,6 @@
 package org.odk.collect.android.adapters;
 
-import android.os.Bundle;
 import java.util.ArrayList;
-import android.content.res.Resources;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
